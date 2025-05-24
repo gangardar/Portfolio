@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="./normalize.css" />
-    <link rel="stylesheet" href="./stylesheet/styel.css"/>
-
+    <link rel="stylesheet" href="./stylesheet/styel.css" />
     <title>Gan Gar Dar</title>
   </head>
   <body>
@@ -14,12 +13,17 @@
           <h1>Gan Gar Dar</h1>
           <h3>Software Engineer</h3>
           <ul>
-            <li><a href="#about">About</a></li>
+            <li><a class="short-line" href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#education">Education</a></li>
           </ul>
         </header>
+        <span class="resume"
+          ><a href="./resourses/Gan_Gar_Dar_CV_21_05.pdf" target="_blank"
+            >My Resume</a
+          ></span
+        >
       </div>
       <div class="right-layout">
         <main>
@@ -34,93 +38,141 @@
             </p>
           </section>
           <section id="experience">
-            <article>
-              <span>Jan 2023 - May 2024</span>
-              <h3>Software Engineer</h3>
-              <p>
-                Managed end-to-end software lifecycle using Agile practices.
-                Delivered 3+ projects and coordinated with stakeholders and
-                developers. Oversaw feature planning and sprint retrospectives.
-              </p>
-              <ul>
-                <li>Agile</li>
-                <li>Database Design</li>
-                <li>Project Management</li>
-                <li>Project Coordination</li>
-                <li>Laravel</li>
-                <li>React+Typescript</li>
-                <li>Jira</li>
-              </ul>
+            <article class="flex-layout card">
+              <span class="left-flex">Jan 2023 - May 2024</span>
+              <span class="right-flex">
+                <h3>Software Engineer</h3>
+                <p>
+                  Managed end-to-end software lifecycle using Agile practices.
+                  Delivered 3+ projects and coordinated with stakeholders and
+                  developers. Oversaw feature planning and sprint
+                  retrospectives.
+                </p>
+                <ul>
+                  <li>Agile</li>
+                  <li>Database Design</li>
+                  <li>Project Management</li>
+                  <li>Project Coordination</li>
+                  <li>Laravel</li>
+                  <li>React+Typescript</li>
+                  <li>Jira</li>
+                </ul>
+              </span>
             </article>
-            <article>
-              <p>Oct 2023 - Present</p>
-              <h3>Freelance Developer @Freelancer.com</h3>
-              <p>
-                Developed multilingual WordPress sites and custom PHP
-                applications. Integrated image manipulation modules and
-                localization support. Worked directly with international clients
-                remotely. Working on IoT management platform.
-              </p>
-              <ul>
-                <li>Vanilla PHP</li>
-                <li>JavaScript</li>
-                <li>Bootstrap</li>
-                <li>ChartJs</li>
-                <li>JQuery</li>
-                <li>Ajax</li>
-                <li>Cron Jobs</li>
-                <li>Mail Filter</li>
-              </ul>
+            <article class="flex-layout card">
+              <span class="left-flex">Oct 2023 - Present</span>
+              <span class="right-flex">
+                <h3>Freelance Developer @Freelancer.com</h3>
+                <p>
+                  Developed multilingual WordPress sites and custom PHP
+                  applications. Integrated image manipulation modules and
+                  localization support. Worked directly with international
+                  clients remotely. Working on IoT management platform.
+                </p>
+                <ul>
+                  <li>Vanilla PHP</li>
+                  <li>JavaScript</li>
+                  <li>Bootstrap</li>
+                  <li>ChartJs</li>
+                  <li>JQuery</li>
+                  <li>Ajax</li>
+                  <li>Cron Jobs</li>
+                  <li>Mail Filter</li>
+                </ul>
+              </span>
             </article>
-            <article>
-              <span>Sep 2019 - Oct 2021</span>
-              <h3>FME Engineer</h3>
-              <p>
-                Maintained 200+ telecom sites with 24/7 availability. Configured
-                routers, base stations, and microwave links. Trained junior
-                engineers and ensured technical site surveys.
-              </p>
-              <ul>
-                <li>B2B</li>
-                <li>Microwave</li>
-                <li>Switches Configuration</li>
-                <li>LTE</li>
-                <li>2G</li>
-              </ul>
+            <article class="flex-layout card">
+              <span class="left-flex">Sep 2019 - Oct 2021</span>
+              <span class="right-flex">
+                <h3>FME Engineer</h3>
+                <p>
+                  Maintained 200+ telecom sites with 24/7 availability.
+                  Configured routers, base stations, and microwave links.
+                  Trained junior engineers and ensured technical site surveys.
+                </p>
+                <ul>
+                  <li>B2B</li>
+                  <li>Microwave</li>
+                  <li>Switches Configuration</li>
+                  <li>LTE</li>
+                  <li>2G</li>
+                </ul>
+              </span>
             </article>
-            <article>
-              <p>Jun 2017 - Dec 2018</p>
-              <h3>Technical Support</h3>
-              <p>
-                Provided technical assistance in software/hardware support.
-                Installation and maintenance systems and delivered customer
-                training sessions.
-              </p>
-              <ul>
-                <li>Windows</li>
-                <li>System Recovery</li>
-                <li>System Restoration</li>
-                <li>Networking</li>
-                <li>Hardware Installation</li>
-                <li>Technical Training</li>
-              </ul>
+            <article class="flex-layout card">
+              <span class="left-flex">Jun 2017 - Dec 2018</span>
+              <span class="right-flex">
+                <h3>Technical Support</h3>
+                <p>
+                  Provided technical assistance in software/hardware support.
+                  Installation and maintenance systems and delivered customer
+                  training sessions.
+                </p>
+                <ul>
+                  <li>Windows</li>
+                  <li>System Recovery</li>
+                  <li>System Restoration</li>
+                  <li>Networking</li>
+                  <li>Hardware Installation</li>
+                  <li>Technical Training</li>
+                </ul>
+              </span>
             </article>
           </section>
           <section id="projects">
-            <article>
-              <h3>E-Auctioning System</h3>
+            <article class="flex-layout card">
+              <span class="left-flex"><img src="./resourses/Mspark Thumbnail.png" alt="E-Auctioning System Thumbnail"></span>
+              <span class="right-flex">
+                <h3>E-Auctioning System</h3>
+                <p>
+                  MERN-based real-time gem auction platform with WebSocket and
+                  USDT crypto payment integration.
+                </p>
+                <ul>
+                  <li>MongoDB</li>
+                  <li>React</li>
+                  <li>Nodejs</li>
+                  <li>MUI</li>
+                  <li>WebSocket</li>
+                  <li>CoinGate</li>
+                </ul>
+              </span>
             </article>
-            <article>
-              <h3>Taxi Booking System</h3>
+            <article class="flex-layout card">
+              <span class="left-flex">
+                <img src="./resourses/Takasi Thumbnail.png" alt="Takasi booking ">
+              </span>
+              <span class="right-flex">
+                <h3>Taxi Booking System</h3>
+                <p>
+                  Laravel + React + TypeScript taxi booking system with real-time ride tracking.
+                </p>
+              </span>
             </article>
-            <article>
-              <h3>Personal Tutoring System</h3>
+            <article class="flex-layout card">
+              <span class="left-flex">
+                <img src="./resourses/E-Tutoring Thumbnail.png" alt="Taxi booking ">
+              </span>
+              <span class="right-flex">
+                <h3>Personal Tutoring System</h3>
+                <p>
+                  MERN app with real-time chat, file sharing, and admin-managed teacher allocation.
+                </p>
+              </span>
             </article>
             <article>
               <h3>E-Commerce System</h3>
             </article>
-            <article>
-              <h3>Yoga App</h3>
+            <article class="flex-layout card">
+              <span>
+                <img src="./resourses/Yoga App Thumbnail.png" alt="Yoga app native + hybrid">
+              </span>
+              <span>
+                <h3>Yoga App</h3>
+                <p>
+                  Native Android + React Native app for booking yoga classes with Firebase-based data sync.
+                </p>
+              </span>
             </article>
           </section>
           <section id="education">
@@ -138,3 +190,6 @@
     </div>
   </body>
 </html>
+
+<script src="./scripts/index.js"></script>
+

@@ -347,3 +347,22 @@ template {
 [hidden] {
   display: none;
 }
+
+ul{
+  padding: 0;
+}
+
+li{
+  list-style-type: none;
+}
+
+a {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+a:hover {
+    opacity: 0.5;
+    text-decoration:none; 
+    cursor:pointer;  
+}
