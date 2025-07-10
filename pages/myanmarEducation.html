@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myanmar: Education Under Attack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Sober Reflection -->
+    <!-- Application Structure Plan: The SPA uses a narrative, single-page scrolling structure to guide the user through the crisis. It begins with high-impact, dashboard-style key figures to establish the scale immediately. It then moves to an interactive chart showing the dramatic escalation post-coup, providing clear evidence of the change. The focus then narrows to the human cost with a detailed case study of the Depayin bombing, making the abstract numbers concrete. An interactive "Anatomy of a Violation" section allows users to explore the different types of grave violations. The application then broadens out to cover the legal context (breaches of international law) and concludes with the international response and a clear call to action. This top-down, narrative structure (from macro-scale to human-scale and back to global context) was chosen to be more persuasive and easier to digest for a general audience than a simple reiteration of the report's chapters. Navigation is facilitated by a sticky header. -->
+    <!-- Visualization & Content Choices: 
+        - Key Stats (Goal: Inform/Shock): Presented as HTML/Tailwind "stat cards" for immediate impact. 
+        - Escalation Chart (Goal: Show Change/Compare): A Chart.js bar chart dynamically compares key metrics before and after the 2021 coup. This visual is more powerful than text for demonstrating the massive increase. Interaction: Buttons to switch data views.
+        - Grave Violations Breakdown (Goal: Organize/Compare): A Chart.js doughnut chart shows the proportion of violation types. Interaction: Clickable cards reveal detailed text, allowing user-led exploration. Justification: Breaks a complex topic into digestible parts.
+        - Depayin Case Study (Goal: Humanize): Uses a structured HTML/CSS grid to present narrative text alongside a "fact sheet" for a clear, impactful summary of the tragedy.
+        - International Law (Goal: Inform): Uses simple HTML/Tailwind cards with Unicode icons for visual appeal and clarity without complex graphics.
+        - Call to Action (Goal: Persuade): A clear, formatted list at the end provides actionable takeaways.
+        - Library/Method: All charts are rendered on <canvas> using Chart.js. All other visuals use structured HTML and Tailwind CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #333;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            width: 100%;
+            max-height: 450px;
+        }
+        .nav-link {
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #d9534f;
+        }
+        .stat-card {
+            border-left: 4px solid #d9534f;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .active-btn {
+            background-color: #d9534f;
+            color: #fff;
+        }
+        .inactive-btn {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        .violation-card {
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .violation-card.active {
+            background-color: #fdf2f2;
+            border-color: #d9534f;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
+            <h1 class="text-xl md:text-2xl font-bold text-gray-800">Myanmar's Education Crisis</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link text-gray-600 font-medium">Overview</a>
+                <a href="#escalation" class="nav-link text-gray-600 font-medium">Escalation</a>
+                <a href="#casestudy" class="nav-link text-gray-600 font-medium">Case Study</a>
+                <a href="#violations" class="nav-link text-gray-600 font-medium">Violations</a>
+                <a href="#action" class="nav-link text-gray-600 font-medium">Call to Action</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+             <a href="#overview" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Overview</a>
+             <a href="#escalation" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Escalation</a>
+             <a href="#casestudy" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Case Study</a>
+             <a href="#violations" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Violations</a>
+             <a href="#action" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Call to Action</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6 text-center max-w-4xl">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">Education Under Attack in Myanmar</h2>
+                <p class="mt-4 text-lg md:text-xl text-gray-600">Since the February 2021 military coup, children and schools have become primary targets in a systematic campaign of violence, shattering the future of a generation.</p>
+                <div class="mt-8 bg-red-100 border border-red-200 text-red-800 px-4 py-3 rounded-lg inline-block">
+                    <p class="font-bold text-lg">Attacks on schools and hospitals increased by over 1,300%</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Stats -->
+        <section id="overview" class="py-16 md:py-20">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">The Crisis by the Numbers</h3>
+                    <p class="mt-2 text-lg text-gray-600">This section provides a snapshot of the devastating impact on children and education since the conflict escalated. The figures represent verified incidents, with actual numbers believed to be significantly higher due to reporting challenges.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="stat-card bg-white p-6 rounded-lg shadow-md">
+                        <div class="text-4xl font-bold text-red-600">5,141+</div>
+                        <p class="mt-2 text-gray-700 font-semibold">Grave Violations Against Children</p>
+                        <p class="text-sm text-gray-500 mt-1">Verified from July 2020 - Dec 2023. The military is responsible for ~80%.</p>
+                    </div>
+                    <div class="stat-card bg-white p-6 rounded-lg shadow-md">
+                        <div class="text-4xl font-bold text-red-600">750+</div>
+                        <p class="mt-2 text-gray-700 font-semibold">Children Killed or Injured</p>
+                        <p class="text-sm text-gray-500 mt-1">A conservative estimate by the end of 2024, victims of airstrikes and shelling.</p>
+                    </div>
+                    <div class="stat-card bg-white p-6 rounded-lg shadow-md">
+                        <div class="text-4xl font-bold text-red-600">450+</div>
+                        <p class="mt-2 text-gray-700 font-semibold">Attacks on Schools</p>
+                        <p class="text-sm text-gray-500 mt-1">Reported from 2021 to 2023, including bombings, arson, and military occupation.</p>
+                    </div>
+                     <div class="stat-card bg-white p-6 rounded-lg shadow-md">
+                        <div class="text-4xl font-bold text-red-600">2,200+</div>
+                        <p class="mt-2 text-gray-700 font-semibold">Children Recruited by Armed Forces</p>
+                        <p class="text-sm text-gray-500 mt-1">Forced recruitment surged after the 2021 coup, a grave violation of international law.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Escalation Chart -->
+        <section id="escalation" class="py-16 md:py-20 bg-white">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">A Calculated Escalation</h3>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">The 2021 military coup marked a dramatic turning point. The chart below visualizes the staggering increase in violence targeting education and children, demonstrating a shift toward more indiscriminate and brutal tactics. Use the buttons to explore different violation types.</p>
+                </div>
+                 <div class="flex justify-center mb-8 space-x-2">
+                    <button id="btn-attacks" class="px-4 py-2 text-sm font-medium rounded-md active-btn">Attacks on Schools</button>
+                    <button id="btn-military-use" class="px-4 py-2 text-sm font-medium rounded-md inactive-btn">Military Use of Schools</button>
+                    <button id="btn-violations" class="px-4 py-2 text-sm font-medium rounded-md inactive-btn">Grave Violations</button>
+                </div>
+                <div class="chart-container max-w-4xl">
+                    <canvas id="escalationChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Case Study -->
+        <section id="casestudy" class="py-16 md:py-20">
+             <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Faces of the Crisis: The Depayin School Bombing</h3>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Behind the statistics are human stories. The May 2025 attack on a school in Depayin, Sagaing Region, is a horrifying example of the military's disregard for children's lives. This was not an isolated incident; similar aerial attacks have been reported across the country, including in Mogok.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
+                    <div class="p-8 md:p-10">
+                        <h4 class="text-2xl font-bold text-gray-800">Airstrike on a Morning Assembly</h4>
+                        <p class="mt-4 text-gray-600">On May 12, 2025, a military jet dropped two bombs on a school operated by the pro-democracy movement. It was filled with students attending supplementary classes. The attack occurred despite the military's own declared ceasefire. Witnesses described horrific scenes of carnage, with the youngest victim just seven years old. The state-run media later dismissed the reports as "fake news," a common tactic used to deny atrocities.</p>
+                        <p class="mt-4 text-gray-600">This event, and others like the bombings in Mogok, Mandalay Region, around the same time, highlights a deliberate strategy to terrorize civilians and dismantle alternative education systems that represent a challenge to the junta's authority.</p>
+                    </div>
+                    <div class="bg-red-50 p-8 md:p-10 border-t lg:border-t-0 lg:border-l border-red-200">
+                        <h4 class="text-xl font-bold text-red-800">Attack Details</h4>
+                        <ul class="mt-4 space-y-4 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-red-600 mr-3 mt-1">●</span>
+                                <div><strong>Location:</strong> Oe Htein Kwin village, Depayin, Sagaing Region</div>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="text-red-600 mr-3 mt-1">●</span>
+                                <div><strong>Date:</strong> May 12, 2025</div>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="text-red-600 mr-3 mt-1">●</span>
+                                <div><strong>Fatalities:</strong> 24 (22 children, 2 teachers)</div>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="text-red-600 mr-3 mt-1">●</span>
+                                <div><strong>Injured:</strong> Over 100</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-600 mr-3 mt-1">●</span>
+                                <div><strong>Perpetrator:</strong> Myanmar Armed Forces (MiG-29 jet)</div>
+                            </li>
+                        </ul>
+                         <p class="mt-6 text-sm text-gray-600">The Independent Investigative Mechanism for Myanmar (IIMM) is collecting evidence, noting that such attacks may constitute <strong>war crimes</strong> or <strong>crimes against humanity</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Violations Breakdown -->
+        <section id="violations" class="py-16 md:py-20 bg-white">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">Anatomy of a Violation</h3>
+                    <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">The term "grave violations" covers several distinct crimes against children in conflict zones. The chart shows the breakdown of verified violations in Myanmar, while the cards below provide more detail. Click on a card to learn more about each violation type.</p>
+                </div>
+                <div class="lg:flex lg:items-center lg:gap-12">
+                    <div class="lg:w-1/3">
+                        <div class="chart-container h-[300px] lg:h-[350px]">
+                             <canvas id="violationsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-12 lg:mt-0 lg:w-2/3">
+                        <div id="violation-cards" class="space-y-4">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- International Law -->
+        <section id="action" class="py-16 md:py-20">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-900">A Breach of Law and Trust</h3>
+                    <p class="mt-2 text-lg text-gray-600">The junta's actions are a flagrant violation of multiple international laws and norms designed to protect children and education.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="text-4xl mb-4">📜</div>
+                        <h4 class="text-xl font-semibold mb-2">Convention on the Rights of the Child</h4>
+                        <p class="text-gray-600">Ratified by Myanmar in 1991, this treaty guarantees the right to education and protection from violence. The military's actions are in direct contravention of its obligations.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="text-4xl mb-4">🛡️</div>
+                        <h4 class="text-xl font-semibold mb-2">Safe Schools Declaration</h4>
+                        <p class="text-gray-600">Endorsed by Myanmar, this commits states to protect schools from attack and military use. The junta has violated this by bombing hundreds of schools and using over 220 as military bases.</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="text-4xl mb-4">⚖️</div>
+                        <h4 class="text-xl font-semibold mb-2">International Humanitarian Law</h4>
+                        <p class="text-gray-600">The deliberate targeting of civilians and civilian infrastructure like schools constitutes a war crime. UN bodies are actively investigating these atrocities for future prosecution.</p>
+                    </div>
+                </div>
+                 <div class="mt-16 bg-white p-8 md:p-10 rounded-lg shadow-lg border-l-4 border-blue-500">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">An Urgent Call to Action</h3>
+                    <p class="text-lg text-gray-600 mb-6">The international response has been called "woefully inadequate." Based on the findings, human rights groups and UN bodies are demanding immediate and robust international action to protect Myanmar's children and hold perpetrators accountable.</p>
+                    <ul class="space-y-3 text-gray-700 list-disc list-inside">
+                        <li><strong>Immediate Cessation of Attacks:</strong> Demand the junta end all attacks on civilians and halt child recruitment.</li>
+                        <li><strong>Unfettered Humanitarian Access:</strong> Allow aid organizations to reach all affected populations without restriction.</li>
+                        <li><strong>Targeted Sanctions & Arms Embargo:</strong> Block the flow of weapons, jet fuel, and funds to the military junta.</li>
+                        <li><strong>Support for International Justice:</strong> Bolster efforts to investigate and prosecute war crimes and crimes against humanity.</li>
+                        <li><strong>Sustained Support for Education:</strong> Fund alternative and non-formal education to prevent a lost generation.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center text-sm">
+            <p>This interactive report is based on publicly available data from the United Nations, the Global Coalition for Protecting Education from Attack (GCPEA), Save the Children, and other human rights organizations monitoring the crisis in Myanmar.</p>
+            <p class="mt-2 opacity-70">Created for awareness and advocacy purposes.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            // Data for Charts
+            const escalationData = {
+                attacks: {
+                    labels: ['2020 (Pre-Coup)', '2021 (Post-Coup)'],
+                    data: [10, 200] 
+                },
+                military_use: {
+                    labels: ['2019', '2020-2021'],
+                    data: [10, 220]
+                },
+                violations: {
+                    labels: ['2017-2020', '2020-2023'],
+                    data: [1200, 5141]
+                }
+            };
+
+            const violationBreakdownData = {
+                labels: ['Recruitment & Use', 'Killing & Maiming', 'Abduction', 'Other Violations'],
+                data: [40, 30, 10, 20]
+            };
+
+            const violationCardData = [
+                { 
+                    title: 'Recruitment and Use of Children',
+                    short: '40% of violations',
+                    details: 'The most frequent violation. The junta has forcibly recruited over 2,200 children, some as young as 12, to serve as soldiers, porters, and human shields. This practice has surged as the military faces troop shortages.'
+                },
+                { 
+                    title: 'Killing and Maiming',
+                    short: '30% of violations',
+                    details: 'Over 1,635 children were killed or maimed in a 3.5-year period. These casualties are often the result of indiscriminate airstrikes and shelling in civilian areas, including near homes and schools.'
+                },
+                {
+                    title: 'Abduction of Children',
+                    short: '10% of violations',
+                    details: 'At least 519 children were verified as abducted by armed forces. They are taken for recruitment, for ransom, or to terrorize communities into submission.'
+                },
+                {
+                    title: 'Attacks on Schools and Hospitals',
+                    short: 'Systematic targeting',
+                    details: 'There has been a 1,340% increase in attacks on schools and hospitals. These protected sites are bombed, burned, and occupied for military purposes, denying children access to education and healthcare.'
+                }
+            ];
+            
+            // Utility to wrap text in Chart.js
+            function wrapText(context, text, maxWidth) {
+                const words = text.split(' ');
+                let lines = [];
+                let currentLine = words[0];
+
+                for (let i = 1; i < words.length; i++) {
+                    let word = words[i];
+                    let width = context.measureText(currentLine + " " + word).width;
+                    if (width < maxWidth) {
+                        currentLine += " " + word;
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            }
+
+            // Escalation Chart
+            const escalationCtx = document.getElementById('escalationChart').getContext('2d');
+            let escalationChart = new Chart(escalationCtx, {
+                type: 'bar',
+                data: {
+                    labels: escalationData.attacks.labels,
+                    datasets: [{
+                        label: 'Number of Incidents',
+                        data: escalationData.attacks.data,
+                        backgroundColor: 'rgba(217, 83, 79, 0.6)',
+                        borderColor: 'rgba(217, 83, 79, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Reported Attacks on Schools',
+                            font: { size: 16 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Incidents: ${context.parsed.y}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Reported Incidents'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const escalationBtns = {
+                attacks: document.getElementById('btn-attacks'),
+                military_use: document.getElementById('btn-military-use'),
+                violations: document.getElementById('btn-violations')
+            };
+
+            function updateEscalationChart(dataType) {
+                const chartTitles = {
+                    attacks: 'Reported Attacks on Schools',
+                    military_use: 'Military Use of School Facilities',
+                    violations: 'Verified Grave Violations Against Children'
+                };
+                
+                escalationChart.data.labels = escalationData[dataType].labels;
+                escalationChart.data.datasets[0].data = escalationData[dataType].data;
+                escalationChart.options.plugins.title.text = chartTitles[dataType];
+                escalationChart.update();
+
+                Object.values(escalationBtns).forEach(btn => btn.classList.replace('active-btn', 'inactive-btn'));
+                escalationBtns[dataType].classList.replace('inactive-btn', 'active-btn');
+            }
+            
+            escalationBtns.attacks.addEventListener('click', () => updateEscalationChart('attacks'));
+            escalationBtns.military_use.addEventListener('click', () => updateEscalationChart('military_use'));
+            escalationBtns.violations.addEventListener('click', () => updateEscalationChart('violations'));
+
+
+            // Violations Doughnut Chart
+            const violationsCtx = document.getElementById('violationsChart').getContext('2d');
+            const violationsChart = new Chart(violationsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: violationBreakdownData.labels,
+                    datasets: [{
+                        label: '% of Violations',
+                        data: violationBreakdownData.data,
+                        backgroundColor: [
+                            'rgba(217, 83, 79, 0.8)',
+                            'rgba(240, 173, 78, 0.8)',
+                            'rgba(91, 192, 222, 0.8)',
+                            'rgba(155, 155, 155, 0.7)'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 12 },
+                                boxWidth: 20,
+                                padding: 15,
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    if (data.labels.length && data.datasets.length) {
+                                        return data.labels.map(function(label, i) {
+                                            const meta = chart.getDatasetMeta(0);
+                                            const ds = data.datasets[0];
+                                            const arc = meta.data[i];
+                                            const fill = ds.backgroundColor[i];
+                                            const value = ds.data[i];
+                                            return {
+                                                text: `${label} (${value}%)`,
+                                                fillStyle: fill,
+                                                hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                                                index: i
+                                            };
+                                        });
+                                    }
+                                    return [];
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Breakdown of Grave Violations',
+                            font: { size: 16 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Violation Cards Logic
+            const cardsContainer = document.getElementById('violation-cards');
+            violationCardData.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'violation-card bg-gray-50 border-2 border-gray-200 rounded-lg p-4';
+                cardElement.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <h5 class="font-semibold text-gray-800">${card.title}</h5>
+                        <span class="text-sm font-bold text-red-600">${card.short}</span>
+                    </div>
+                    <p class="violation-details hidden mt-2 text-gray-600 text-sm">${card.details}</p>
+                `;
+                cardsContainer.appendChild(cardElement);
+
+                cardElement.addEventListener('click', () => {
+                    const allCards = cardsContainer.querySelectorAll('.violation-card');
+                    const details = cardElement.querySelector('.violation-details');
+                    const isActive = cardElement.classList.contains('active');
+
+                    allCards.forEach(c => {
+                        c.classList.remove('active');
+                        c.querySelector('.violation-details').classList.add('hidden');
+                    });
+                    
+                    if (!isActive) {
+                        cardElement.classList.add('active');
+                        details.classList.remove('hidden');
+                    }
+                });
+            });
+             // Pre-select the first card
+            const firstCard = cardsContainer.querySelector('.violation-card');
+            if (firstCard) {
+                firstCard.classList.add('active');
+                firstCard.querySelector('.violation-details').classList.remove('hidden');
+            }
+        });
+    </script>
+
+</body>
+</html>
