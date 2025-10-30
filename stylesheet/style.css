@@ -18,6 +18,7 @@ section{
   display: grid;
   grid-template-columns: 2fr 3fr;
   gap: 20px;
+  width: 100%;
   margin-top: 4rem;  
 }
 
@@ -123,6 +124,43 @@ p {
 
 img {
     width: 150px;
+}
+
+.menuIcon {
+  display: none;
+}
+
+@media (max-width: 480px){
+  .menuIcon {
+    display: block;
+  }
+
+  .left-layout header {
+    display: none;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .layout{
+    gap: 0;
+    grid-template-columns:0;
+    grid-auto-flow: row;
+  }
+
+  .flex-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 15px;
+    gap: 10px;
+    align-content: center;
+}
+
+img{
+  width: 80vw;
+  
+}
 }
 
 

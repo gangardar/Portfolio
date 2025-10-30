@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelectorAll("header ul li a");
   const sections = document.querySelectorAll("section");
+  const blogSection = document.getElementById('blogs');
 
   window.addEventListener("scroll", () => {
     let current = "";
@@ -20,4 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  blogSection.addEventListener('click', () => {
+    console.log('clicked');
+    window.location.href =   '../pages/myanmarEducation.html'
+  })
 });
