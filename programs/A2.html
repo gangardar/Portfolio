@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 German Flashcard Game</title>
+    <style>
+        :root {
+            --primary: #2b6cb0;
+            --primary-hover: #2c5282;
+            --bg: #f7fafc;
+            --card-front: #ffffff;
+            --card-back: #ebf8ff;
+            --text: #2d3748;
+            --text-muted: #718096;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .score-tracker {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        /* Flashcard Wrapper with 3D Perspective */
+        .flashcard-wrapper {
+            perspective: 1000px;
+            width: 100%;
+            height: 320px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-radius: 16px;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            border: 2px solid #e2e8f0;
+        }
+
+        .card-front {
+            background-color: var(--card-front);
+        }
+
+        .card-back {
+            background-color: var(--card-back);
+            transform: rotateY(180deg);
+            border-color: #bee3f8;
+        }
+
+        .word-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .translation-text {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: #2b6cb0;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            position: absolute;
+            bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Controls Area */
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            background-color: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0,0,0,0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>A2 Goethe Vocabulary Deck</h1>
+        
+        <div id="loading-block">
+            <div class="spinner"></div>
+            <div class="loading">Fetching and Shuffling Flashcards...</div>
+        </div>
+
+        <div id="game-block" class="hidden">
+            <div class="score-tracker" id="tracker-text">Card 0 of 0</div>
+
+            <div class="flashcard-wrapper" onclick="flipCard()">
+                <div class="flashcard" id="flashcard">
+                    <div class="card-face card-front">
+                        <div class="word-text" id="front-text">German Word</div>
+                        <div class="hint">Click to Reveal Translation</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <div class="translation-text" id="back-text">English Translation</div>
+                        <div class="hint">Click to see German Word</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="prev-btn" onclick="prevCard()" disabled>← Previous</button>
+                <button id="next-btn" onclick="nextCard()">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Directly target the CSV export endpoint of your specific spreadsheet ID
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1VwAJNXL04x0guPGMV25NZaE1XP8Z65Ogsk5Lxh1r7sA/gviz/tq?tqx=out:csv";
+        
+        let deck = [];
+        let currentIndex = 0;
+
+        // Clean CSV field formatting (handles quotes, escaped quotes, and HTML breaks)
+        function cleanField(field) {
+            if (!field) return "";
+            return field
+                .replace(/^"|"$/g, '')          // Strip wrapping quotes
+                .replace(/""/g, '"')            // Restore literal internal quotes
+                .replace(/<br>/gi, '\n')        // Turn HTML breaks into UI lines
+                .trim();
+        }
+
+        // Mini CSV row parser safely ignoring commas tucked inside quotation blocks
+        function parseCSV(text) {
+            const lines = text.split(/\r?\n/);
+            const results = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                // Simple regex splitter to decouple Column A and Column B with quotes handled
+                const matches = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                
+                if (matches.length >= 2) {
+                    const front = cleanField(matches[0]);
+                    const back = cleanField(matches[1]);
+                    
+                    // Filter out empty rows or structural headers
+                    if (front && front.toLowerCase() !== "column 1" && front.toLowerCase() !== "german_word_form") {
+                        results.push({ front, back });
+                    }
+                }
+            }
+            return results;
+        }
+
+        // Fisher-Yates shuffle engine to randomize card array order on load
+        function shuffleDeck(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Connects to the spreadsheet, downloads data, parses, shuffles, and kicks off interface
+        async function initFlashcards() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                if (!response.ok) throw new Error("Could not download network CSV sheet data.");
+                
+                const csvData = await response.text();
+                const parsedCards = parseCSV(csvData);
+
+                if (parsedCards.length === 0) {
+                    throw new Error("No readable vocabulary words found in columns A and B.");
+                }
+
+                deck = shuffleDeck(parsedCards);
+                
+                // Hide loading block, show game module
+                document.getElementById('loading-block').classList.add('hidden');
+                document.getElementById('game-block').classList.remove('hidden');
+                
+                renderCard();
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loading-block').innerHTML = `
+                    <div style="color: #e53e3e; font-weight: bold;"> Error Loading Vocabulary Data</div>
+                    <p style="font-size:0.9rem; max-width:400px; margin: 10px auto; color:#4a5568;">
+                        ${error.message}<br><br>Make sure your Google Spreadsheet link sharing is set to "Anyone with the link can view".
+                    </p>
+                `;
+            }
+        }
+
+        // Displays current card data on screen and updates buttons
+        function renderCard() {
+            if (deck.length === 0) return;
+
+            const card = deck[currentIndex];
+            
+            // Reset rotation state first before content swaps to prevent flash viewing
+            document.getElementById('flashcard').classList.remove('flipped');
+            
+            // Render text with breaks preserved natively
+            document.getElementById('front-text').innerText = card.front;
+            document.getElementById('back-text').innerText = card.back;
+
+            // Update Counter Text
+            document.getElementById('tracker-text').innerText = `Card ${currentIndex + 1} of ${deck.length}`;
+
+            // Control button restrictions
+            document.getElementById('prev-btn').disabled = (currentIndex === 0);
+            document.getElementById('next-btn').disabled = (currentIndex === deck.length - 1);
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentIndex < deck.length - 1) {
+                currentIndex++;
+                renderCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderCard();
+            }
+        }
+
+        // Bootstrap on page launch
+        window.addEventListener('DOMContentLoaded', initFlashcards);
+    </script>
+</body>
+</html>
