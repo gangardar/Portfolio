@@ -200,7 +200,11 @@
 
             <div class="controls">
                 <button id="prev-btn" onclick="prevCard()" disabled>← Previous</button>
+                <button id="save-btn" onclick="saveProgress(); showAlert('Progress saved!')">Save Progress</button>
                 <button id="next-btn" onclick="nextCard()">Next →</button>
+            </div>
+            <div class="controls" style="margin-top: 10px;">
+                <button id="reset-btn" onclick="resetProgress()">Reset Progress</button>
             </div>
         </div>
     </div>
@@ -209,8 +213,41 @@
         // Directly target the CSV export endpoint of your specific spreadsheet ID
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1VwAJNXL04x0guPGMV25NZaE1XP8Z65Ogsk5Lxh1r7sA/gviz/tq?tqx=out:csv";
         
+        const STORAGE_KEY = 'a2-goethe-flashcards-progress';
+
         let deck = [];
         let currentIndex = 0;
+        let isFlipped = false;
+
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                return saved ? JSON.parse(saved) : null;
+            } catch (error) {
+                console.warn('Could not load progress:', error);
+                return null;
+            }
+        }
+
+        function saveProgress() {
+            try {
+                const progress = {
+                    currentIndex,
+                    isFlipped,
+                    deck
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            } catch (error) {
+                console.warn('Could not save progress:', error);
+            }
+        }
+
+        function resetProgress() {
+            localStorage.removeItem(STORAGE_KEY);
+            currentIndex = 0;
+            isFlipped = false;
+            renderCard();
+        }
 
         // Clean CSV field formatting (handles quotes, escaped quotes, and HTML breaks)
         function cleanField(field) {
@@ -269,7 +306,18 @@
                     throw new Error("No readable vocabulary words found in columns A and B.");
                 }
 
-                deck = shuffleDeck(parsedCards);
+                const savedProgress = loadProgress();
+                const hasSavedDeck = savedProgress && Array.isArray(savedProgress.deck) && savedProgress.deck.length === parsedCards.length;
+
+                if (hasSavedDeck) {
+                    deck = savedProgress.deck;
+                    currentIndex = Math.min(savedProgress.currentIndex || 0, deck.length - 1);
+                    isFlipped = Boolean(savedProgress.isFlipped);
+                } else {
+                    deck = shuffleDeck(parsedCards);
+                    currentIndex = 0;
+                    isFlipped = false;
+                }
                 
                 // Hide loading block, show game module
                 document.getElementById('loading-block').classList.add('hidden');
@@ -292,9 +340,12 @@
             if (deck.length === 0) return;
 
             const card = deck[currentIndex];
+            if (!card) return;
+            
+            const flashcard = document.getElementById('flashcard');
             
             // Reset rotation state first before content swaps to prevent flash viewing
-            document.getElementById('flashcard').classList.remove('flipped');
+            flashcard.classList.toggle('flipped', isFlipped);
             
             // Render text with breaks preserved natively
             document.getElementById('front-text').innerText = card.front;
@@ -309,25 +360,40 @@
         }
 
         function flipCard() {
-            document.getElementById('flashcard').classList.toggle('flipped');
+            isFlipped = !isFlipped;
+            document.getElementById('flashcard').classList.toggle('flipped', isFlipped);
+            saveProgress();
         }
 
         function nextCard() {
             if (currentIndex < deck.length - 1) {
                 currentIndex++;
+                isFlipped = false;
                 renderCard();
+                saveProgress();
             }
         }
 
         function prevCard() {
             if (currentIndex > 0) {
                 currentIndex--;
+                isFlipped = false;
                 renderCard();
+                saveProgress();
             }
+        }
+
+        function showAlert(message) {
+            Swal.fire({
+                title: "Success",
+                text: "Progress saved!",
+                icon: "success"
+            });
         }
 
         // Bootstrap on page launch
         window.addEventListener('DOMContentLoaded', initFlashcards);
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
