@@ -1,277 +1,509 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./normalize.css" />
-    <link rel="stylesheet" href="./stylesheet/style.css" />
-    <title>Gan Gar Dar</title>
-  </head>
-  <body>
-    <div class="menuIcon"><i class="fa-solid fa-bars"></i></div>
-    <div class="layout">
-      <div class="left-layout">
-        <header>
-          <h1>Gan Gar Dar</h1>
-          <h3>Software Engineer</h3>
-          <ul>
-            <li><a class="short-line" href="#about">About</a></li>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gan Gar Dar | Lead Software Engineer</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #7dd3fc;
+            --card-bg: #1e293b;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 10%;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Sections Container */
+        section {
+            padding: 6rem 10% 4rem 10%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Hero Section */
+        #hero {
+            padding-top: 8rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content h2 {
+            font-size: 1.75rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            max-width: 600px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-secondary);
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            border-left: 2px solid var(--border);
+            padding-left: 2rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-2rem - 7px);
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            border: 2px solid var(--bg-primary);
+        }
+
+        .job-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .job-company {
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-date {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-item ul {
+            list-style: none;
+        }
+
+        .timeline-item li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.25rem;
+        }
+
+        .timeline-item li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Projects Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card h3 i {
+            font-size: 1rem;
+            color: var(--accent);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Skills Matrix */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .skill-category h3 {
+            font-size: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        /* Contact Section & Footer */
+        #contact .contact-container {
+            max-width: 600px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-icons a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 10%;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Mobile Viewports */
+        @media (max-width: 768px) {
+            nav { padding: 1rem 5%; }
+            .nav-links { display: none; } /* Simplified navigation for mobile */
+            section { padding: 5rem 5% 3rem 5%; }
+            .hero-content h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav>
+        <div class="logo">GAN GAR <span>DAR</span></div>
+        <ul class="nav-links">
+            <li><a href="#hero">About</a></li>
+            <li><a href="#skills">Skills</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#certificate">Certificate</a></li>
-            <li><a href="#blogs">Blogs</a></li>
-          </ul>
-          <span class="resume"
-          ><a href="./resourses/Gan_Gar_Dar_CV_21_05.pdf" target="_blank"
-            >My Resume</a
-          ></span
-        >
-        </header>
-        
-      </div>
-      <div class="right-layout">
-        <main>
-          <section id="about">
-            <p>
-              Versatile Software Developer with a background in
-              telecommunications and full-stack web development. Experienced in
-              delivering real-world software solutions using the MERN stack,
-              with strong skills in team coordination, remote work, and agile
-              methodologies. Proficient in React, Node.js, Docker, and system
-              administration. Completed graduation BSc (Hons) in Computing.
-            </p>
-          </section>
-          <section id="experience">
-            <article class="flex-layout card">
-              <span class="left-flex">Jan 2023 - May 2024</span>
-              <span class="right-flex">
-                <h3>Software Engineer</h3>
-                <p>
-                  Managed end-to-end software lifecycle using Agile practices.
-                  Delivered 3+ projects and coordinated with stakeholders and
-                  developers. Oversaw feature planning and sprint
-                  retrospectives.
-                </p>
-                <ul>
-                  <li>Agile</li>
-                  <li>Database Design</li>
-                  <li>Project Management</li>
-                  <li>Project Coordination</li>
-                  <li>Laravel</li>
-                  <li>React+Typescript</li>
-                  <li>Jira</li>
-                </ul>
-              </span>
-            </article>
-            <article class="flex-layout card">
-              <span class="left-flex">Oct 2023 - Present</span>
-              <span class="right-flex">
-                <h3>Freelance Developer @Freelancer.com</h3>
-                <p>
-                  Developed multilingual WordPress sites and custom PHP
-                  applications. Integrated image manipulation modules and
-                  localization support. Worked directly with international
-                  clients remotely. Working on IoT management platform.
-                </p>
-                <ul>
-                  <li>Vanilla PHP</li>
-                  <li>JavaScript</li>
-                  <li>Bootstrap</li>
-                  <li>ChartJs</li>
-                  <li>JQuery</li>
-                  <li>Ajax</li>
-                  <li>Cron Jobs</li>
-                  <li>Mail Filter</li>
-                </ul>
-              </span>
-            </article>
-            <article class="flex-layout card">
-              <span class="left-flex">Sep 2019 - Oct 2021</span>
-              <span class="right-flex">
-                <h3>FME Engineer</h3>
-                <p>
-                  Maintained 200+ telecom sites with 24/7 availability.
-                  Configured routers, base stations, and microwave links.
-                  Trained junior engineers and ensured technical site surveys.
-                </p>
-                <ul>
-                  <li>B2B</li>
-                  <li>Microwave</li>
-                  <li>Switches Configuration</li>
-                  <li>LTE</li>
-                  <li>2G</li>
-                </ul>
-              </span>
-            </article>
-            <article class="flex-layout card">
-              <span class="left-flex">Jun 2017 - Dec 2018</span>
-              <span class="right-flex">
-                <h3>Technical Support</h3>
-                <p>
-                  Provided technical assistance in software/hardware support.
-                  Installation and maintenance systems and delivered customer
-                  training sessions.
-                </p>
-                <ul>
-                  <li>Windows</li>
-                  <li>System Recovery</li>
-                  <li>System Restoration</li>
-                  <li>Networking</li>
-                  <li>Hardware Installation</li>
-                  <li>Technical Training</li>
-                </ul>
-              </span>
-            </article>
-          </section>
-          <section id="projects">
-            <article class="flex-layout card">
-              <span class="left-flex"
-                ><img
-                  src="./resourses/Mspark Thumbnail.png"
-                  alt="E-Auctioning System Thumbnail"
-              /></span>
-              <span class="right-flex">
-                <h3>E-Auctioning System</h3>
-                <p>
-                  MERN-based real-time gem auction platform with WebSocket and
-                  USDT crypto payment integration.
-                </p>
-                <ul>
-                  <li>MongoDB</li>
-                  <li>React</li>
-                  <li>Nodejs</li>
-                  <li>MUI</li>
-                  <li>WebSocket</li>
-                  <li>CoinGate</li>
-                </ul>
-              </span>
-            </article>
-            <article class="flex-layout card">
-              <span class="left-flex">
-                <img
-                  src="./resourses/Takasi Thumbnail.png"
-                  alt="Takasi booking "
-                />
-              </span>
-              <span class="right-flex">
-                <h3>Taxi Booking System</h3>
-                <p>
-                  Laravel + React + TypeScript taxi booking system with
-                  real-time ride tracking.
-                </p>
-                <ul>
-                  <li>Laravel</li>
-                  <li>React</li>
-                  <li>TypeScript</li>
-                  <li>Bootstrap Component</li>
-                  <li>Map Api</li>
-                  <li>Google Console</li>
-                </ul>
-              </span>
-            </article>
-            <article class="flex-layout card">
-              <span class="left-flex">
-                <img
-                  src="./resourses/E-Tutoring Thumbnail.png"
-                  alt="Taxi booking "
-                />
-              </span>
-              <span class="right-flex">
-                <h3>Personal Tutoring System</h3>
-                <p>
-                  MERN app with real-time chat, file sharing, and admin-managed
-                  teacher allocation.
-                </p>
-                <ul>
-                  <li>MERN Stack</li>
-                  <li>Socket.io</li>
-                  <li>MUI Component</li>
-                  <li>Testing</li>
-                  <li>Team Work</li>
-                  <li>JWT</li>
-                </ul>
-              </span>
-            </article>
-            <article class="flex-layout card">
-              <span>
-                <img
-                  src="./resourses/Yoga App Thumbnail.png"
-                  alt="Yoga app native + hybrid"
-                />
-              </span>
-              <span>
-                <h3>Yoga App</h3>
-                <p>
-                  Native Android + React Native app for booking yoga classes
-                  with Firebase-based data sync.
-                </p>
-                <ul>
-                  <li>Android Native</li>
-                  <li>React Native</li>
-                  <li>Firebase</li>
-                  <li>Android Studio</li>
-                  <li>Kotlin</li>
-                  <li>Javascript</li>
-                  <li>Fire Store</li>
-                </ul>
-              </span>
-            </article>
-          </section>
-          <section id="education">
-            <article class="card" style="padding: 15px">
-              <h3>BSc (Hons) in Computing - University of Greenwich</h3>
-              <div>
-                Mobile Development (Native & Hybrid), HCI, Project Management,
-                Agile, Networking & Cryptography and Database Design &
-                Development.
-              </div>
-            </article>
-            <article class="card" style="padding: 15px">
-              <h3>Diploma in Network Communication - KMD Institute</h3>
-              <div>Networking, System Administration & Telecommunication.</div>
-            </article>
-          </section>
-          <section id="certificate">
-            <article>
-              <span class="left-flex">December 2019</span>
-              <span>
-                <h3>Cisco Certified Netowrk Assosciate</h3>
-                <p>Networking, System Administration & Telecommunication.</p>
-              </span>
-            </article>
-          </section>
-          <section id="blogs">
-            <h2>Blogs</h2>
-            <article class="card">
-              <h3>
-                <a href="./pages/myanmarEducation.html"
-                  >Myanmar Education System: Past, Present, and Future</a
-                >
-              </h3>
-              <p>
-                This blog post discusses the evolution and future of the
-                education system in Myanmar.
-              </p>
-            </article>
-          </section>
-        </main>
-      </div>
-    </div>
-    <footer>
-      <div>
-        <hr/>
-        <p>Gan Gar Dar Portfolio. All right reserved by me. @2025</p>
-      </div>
-    </footer>
-  </body>
-</html>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-<script src="./scripts/index.js"></script>
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-  integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
+    <!-- HERO / IDENTITY SECTION -->
+    <section id="hero">
+        <div class="hero-content">
+            <h1>Gan Gar Dar</h1>
+            <h2>Lead Software Engineer</h2>
+            <p>
+                Highly skilled and adaptable Software Engineer with over 5 years of professional experience across full-stack web and mobile ecosystem architectures. Expert in building scalable real-time systems, multi-tenant SaaS platforms, and performance-driven cloud systems.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNICAL SKILLS MATRIX -->
+    <section id="skills">
+        <h2 class="section-title">Technical Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Languages</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">PHP</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Kotlin</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">AQL</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Frameworks</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">React.js</span>
+                    <span class="skill-tag">React Native</span>
+                    <span class="skill-tag">Expo</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Express.js</span>
+                    <span class="skill-tag">Laravel</span>
+                    <span class="skill-tag">Spring Boot</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Databases & Cloud</h3>
+                <div class="skill-list">
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">EHRbase</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">Firebase</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE WORK HISTORY -->
+    <section id="experience">
+        <h2 class="section-title">Professional Experience</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <div class="job-title">Lead Software Engineer</div>
+                <div class="job-company">Varoon Valley Co. Ltd.</div>
+                <div class="job-date">Jan 2023 — Present</div>
+                <ul>
+                    <li>Orchestrated full-stack architecture lifecycles for production ecosystems using React and Node.js.</li>
+                    <li>Designed an enterprise marketing analytics engine utilizing clean multi-tenant row/schema isolation on PostgreSQL.</li>
+                    <li>Built an openEHR open source database implementation using EHRbase frameworks paired with custom Master Patient Index architectures.</li>
+                    <li>Engineered asynchronous marketplace application flows and custom registration funnels with React Native and Expo.</li>
+                    <li>Managed agile operations, sprint evaluations, and cross-functional technical stakeholder delivery channels.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="job-title">Field Maintenance Engineer</div>
+                <div class="job-company">Innovis Telecom</div>
+                <div class="job-date">Sep 2019 — Oct 2021</div>
+                <ul>
+                    <li>Maintained 200+ mission-critical telecommunications structures ensuring reliable 24/7 network availability constraints.</li>
+                    <li>Provisioned industrial routing infrastructures, base stations, and microwave point-to-point links.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="job-title">Technical Support Specialist</div>
+                <div class="job-company">MMC Computer Sales & Service</div>
+                <div class="job-date">Jun 2017 — Dec 2018</div>
+                <ul>
+                    <li>Handled high-tier system diagnostics, core OS installations, and business hardware infrastructure solutions.</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <h2 class="section-title">Academic & Independent Projects</h2>
+        <div class="grid">
+            
+            <div class="card">
+                <h3>Mspark Platform <i class="fa-solid fa-gavel"></i></h3>
+                <p>A real-time gem auction platform designed using the MERN stack. Features sub-second state tracking via bidirectional WebSockets and asset safety using secure USDT payment wrappers.</p>
+            </div>
+
+            <div class="card">
+                <h3>Takasi Fleet System <i class="fa-solid fa-taxi"></i></h3>
+                <p>A robust, live-tracking taxi layout using Laravel, React, and TypeScript seamlessly paired with real-time geographical live-streaming streaming interfaces.</p>
+            </div>
+
+            <div class="card">
+                <h3>Yoga Mobile Suite <i class="fa-solid fa-spa"></i></h3>
+                <p>Cross-platform client and coordinator ecosystem constructed inside Native Android modules and React Native wrappers, leveraging Firebase for live-sync tasks.</p>
+            </div>
+
+            <div class="card">
+                <h3>Academic Tutoring System <i class="fa-solid fa-graduation-cap"></i></h3>
+                <p>A functional MERN application displaying bidirectional file routing protocols, operational chat architectures, and specialized teacher distribution panel controls.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT LINKS -->
+    <section id="contact">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-container">
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                I'm always open to discussing new projects, architectures, or collaborative opportunities. Feel free to connect across any of the platforms listed below.
+            </p>
+            <p><strong>Email:</strong> <a href="mailto:gangardar0@gmail.com" style="color: var(--accent); text-decoration: none;">gangardar0@gmail.com</a></p>
+            <p><strong>Phone / Messaging:</strong> +66839983680 (WhatsApp, Viber)</p>
+            <p><strong>Languages spoken:</strong> English (Fluent), Burmese, Nepali, Hindi, German (B1)</p>
+            
+            <div class="social-icons">
+                <a href="https://github.com/gangardar" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com/in/gan-gar-dar-a5b79b29a" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+            
+            <a href="mailto:gangardar0@gmail.com" class="btn btn-primary">Send Email</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Gan Gar Dar. Built with vanilla HTML & CSS.</p>
+    </footer>
+
+</body>
+</html>

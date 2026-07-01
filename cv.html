@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gan Gar Dar - CV</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 14mm 14mm 14mm 14mm;
+            background-color: #ffffff;
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 8pt;
+                color: #888888;
+            }
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #2c3e50;
+            line-height: 1.4;
+            font-size: 9.5pt;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5px;
+        }
+
+        .header-main {
+            vertical-align: bottom;
+        }
+
+        .header-meta {
+            text-align: right;
+            vertical-align: bottom;
+            font-size: 9pt;
+            color: #4f5d75;
+            line-height: 1.5;
+        }
+
+        h1 {
+            font-size: 22pt;
+            font-weight: 700;
+            color: #1d2d44;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #4f5d75;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .header-meta a {
+            color: #2d3142;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 2px;
+            background-color: #1d2d44;
+            margin: 10px 0 12px 0;
+            border: none;
+        }
+
+        .section {
+            margin-bottom: 14px;
+            page-break-inside: auto;
+        }
+
+        h2 {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #1d2d44;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 6px 0;
+            border-left: 4px solid #4f5d75;
+            padding-left: 8px;
+            page-break-after: avoid;
+        }
+
+        .summary-text {
+            text-align: justify;
+            margin: 0 0 8px 0;
+            color: #3d4a5d;
+        }
+
+        .skills-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2px;
+        }
+
+        .skills-table td {
+            padding: 3px 0;
+            vertical-align: top;
+        }
+
+        .skills-label {
+            font-weight: 700;
+            color: #1d2d44;
+            width: 18%;
+        }
+
+        .skills-value {
+            color: #3d4a5d;
+            width: 82%;
+        }
+
+        .job-card {
+            margin-bottom: 10px;
+            page-break-inside: auto;
+        }
+
+        .job-header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 4px;
+            page-break-after: avoid;
+        }
+
+        .job-title {
+            font-size: 10.5pt;
+            font-weight: 700;
+            color: #1d2d44;
+            text-align: left;
+        }
+
+        .job-meta {
+            font-size: 9.5pt;
+            font-weight: 600;
+            color: #4f5d75;
+            text-align: right;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        li {
+            margin-bottom: 3px;
+            color: #3d4a5d;
+            text-align: justify;
+            page-break-inside: avoid;
+        }
+
+        .item-row {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2px;
+            page-break-inside: avoid;
+        }
+
+        .item-name {
+            font-weight: 700;
+            color: #1d2d44;
+            text-align: left;
+        }
+
+        .item-meta {
+            font-weight: 500;
+            color: #4f5d75;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- HEADER SECTION -->
+    <table class="header-table">
+        <tr>
+            <td class="header-main">
+                <h1>GAN GAR DAR</h1>
+                <div class="subtitle">Software Engineer</div>
+            </td>
+            <td class="header-meta">
+                Email: <a href="mailto:gangardar0@gmail.com">gangardar0@gmail.com</a><br>
+                Phone/WhatsApp/Viber: +66839983680<br>
+                GitHub: <a href="https://github.com/gangardar" target="_blank">github.com/gangardar</a><br>
+                LinkedIn: <a href="https://linkedin.com/in/gan-gar-dar-a5b79b29a" target="_blank">linkedin.com/in/gan-gar-dar-a5b79b29a</a>
+            </td>
+        </tr>
+    </table>
+
+    <hr class="divider">
+
+    <!-- SUMMARY SECTION -->
+    <div class="section">
+        <h2>Professional Summary</h2>
+        <p class="summary-text">
+            Highly skilled and adaptable Software Engineer with over 5 years of professional experience across full-stack web and mobile ecosystem architectures. Proven track record of spearheading large-scale production platforms, designing fault-tolerant real-time systems, and deploying isolated multi-tenant SaaS environments. Expert in aligning technical specifications with complex business criteria within Agile engineering frameworks.
+        </p>
+    </div>
+
+    <!-- TECHNICAL SKILLS SECTION -->
+    <div class="section">
+        <h2>Technical Skills</h2>
+        <table class="skills-table">
+            <tr>
+                <td class="skills-label">Languages:</td>
+                <td class="skills-value">JavaScript, TypeScript, PHP, SQL, Kotlin, Java, Archetype Query Language (AQL)</td>
+            </tr>
+            <tr>
+                <td class="skills-label">Frameworks:</td>
+                <td class="skills-value">React.js, React Native, Expo, Node.js, Express.js, Laravel, Spring Boot</td>
+            </tr>
+            <tr>
+                <td class="skills-label">Databases:</td>
+                <td class="skills-value">PostgreSQL, MongoDB, MySQL, SQLite, EHRbase (openEHR Open Source Platform)</td>
+            </tr>
+            <tr>
+                <td class="skills-label">Tools & Cloud:</td>
+                <td class="skills-value">Docker, Git, WebSockets, Firebase, AWS Cloud Services, Ngrok, Linux (Ubuntu/Kali), Networking Infrastructures</td>
+            </tr>
+            <tr>
+                <td class="skills-label">Integrations:</td>
+                <td class="skills-value">Crypto Gateway Integrations (Coingate, USDT), Live Bidirectional Streaming APIs, RESTful & GraphQL Architectures</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- EXPERIENCE SECTION -->
+    <div class="section">
+        <h2>Professional Experience</h2>
+        
+        <div class="job-card">
+            <table class="job-header-table">
+                <tr>
+                    <td class="job-title">Lead Software Engineer — Varoon Valley Co. Ltd.</td>
+                    <td class="job-meta">Jan 2023 — Present</td>
+                </tr>
+            </table>
+            <ul>
+                <li><strong>Full-Stack Project Leadership:</strong> Orchestrated end-to-end software lifecycles for 3+ high-concurrency production platforms using React.js and Node.js architectures.</li>
+                <li><strong>Multi-Tenant SaaS Analytics Platform:</strong> Architected and deployed a centralized digital marketing analytics engine utilizing clean multi-tenant row/schema isolation strategies on a high-availability PostgreSQL cluster.</li>
+                <li><strong>Health Information Architecture:</strong> Engineered a complex clinical data repository utilizing EHRbase, designing intricate Archetype Query Language (AQL) queries and unifying cross-system patient records within an integrated Master Patient Index (MPI).</li>
+                <li><strong>Service Marketplace Mobile Application:</strong> Built a native-performing service marketplace mobile platform (Urban Company model) featuring an asynchronous onboarding architecture and user registration funnels engineered via React Native, Expo, and TypeScript.</li>
+                <li><strong>IoT Infrastructure & System Tools:</strong> Fabricated an embedded-to-cloud IoT device monitoring dashboard from scratch, deploying low-level image processing modules and comprehensive multi-language runtime localization.</li>
+                <li><strong>Agile Operations & Delivery:</strong> Facilitated sprint planning, structural milestones, code reviews, and project retrospectives within an operational SCRUM/DSDM structure; successfully bridged alignment gaps between engineers and cross-border stakeholders.</li>
+            </ul>
+        </div>
+
+        <div class="job-card" style="margin-top: 10px;">
+            <table class="job-header-table">
+                <tr>
+                    <td class="job-title">Field Maintenance Engineer — Innovis Telecom</td>
+                    <td class="job-meta">Sep 2019 — Oct 2021</td>
+                </tr>
+            </table>
+            <ul>
+                <li>Maintained and monitored 200+ mission-critical telecommunications facilities, consistently sustaining a strict 24/7 network availability and operational SLA threshold.</li>
+                <li>Configured and provisioned industrial edge routers, cellular base transceiver stations (BTS), and long-haul microwave links; performed complete site data surveys.</li>
+                <li>Trained, evaluated, and supervised field execution squads of junior engineers on network recovery maneuvers and live technical deployments.</li>
+            </ul>
+        </div>
+
+        <div class="job-card" style="margin-top: 10px;">
+            <table class="job-header-table">
+                <tr>
+                    <td class="job-title">Technical Support Specialist — MMC Computer Sales & Service</td>
+                    <td class="job-meta">Jun 2017 — Dec 2018</td>
+                </tr>
+            </table>
+            <ul>
+                <li>Provided high-tier diagnostics and resolutions for deep hardware, software, OS kernel conflicts, and commercial workstation installations.</li>
+                <li>Conducted certified Windows systems administration training tracks and refined professional corporate client onboarding mechanisms.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PROJECTS SECTION -->
+    <div class="section">
+        <h2>Academic & Independent Projects</h2>
+        <ul>
+            <li><strong>Mspark Platform Development:</strong> Conceptualized and launched a real-time gem auction ecosystem using the MERN stack, ensuring sub-second state synchronization via bidirectional WebSockets and safe asset settlement through secure USDT crypto-payment layers.</li>
+            <li><strong>Takasi Fleet System:</strong> Programmed and deployed a robust, real-time taxi booking application using a cohesive stack of Laravel, React, and TypeScript integrated with real-time geolocation streaming APIs.</li>
+            <li><strong>Yoga Class Mobile App:</strong> Designed and developed a cross-platform mobile application combining a native Android frontend and React Native modules tailored for clients and coordinators, utilizing Firebase for data synchronization.</li>
+            <li><strong>Personal Tutoring & Academic Allocation System:</strong> Built a MERN-stack application incorporating real-time messaging, protected file distributions, and an administrative panel managing teacher matching algorithms.</li>
+        </ul>
+    </div>
+
+    <!-- EDUCATION SECTION -->
+    <div class="section">
+        <h2>Education</h2>
+        <table class="item-row">
+            <tr>
+                <td class="item-name">BSc (Hons) in Computing — University of Greenwich</td>
+                <td class="item-meta">Graduated 2025</td>
+            </tr>
+        </table>
+        <table class="item-row">
+            <tr>
+                <td class="item-name">Diploma in Network Communication — KMD Institute</td>
+                <td class="item-meta">2019 — 2020</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- CERTIFICATES & LANGUAGES SECTION -->
+    <div class="section">
+        <h2>Certificates & Languages</h2>
+        <table class="skills-table">
+            <tr>
+                <td class="skills-label">Certificates:</td>
+                <td class="skills-value">Cisco Certified Network Associate (CCNA) — Validation ID: 2019</td>
+            </tr>
+            <tr>
+                <td class="skills-label">Languages:</td>
+                <td class="skills-value">Burmese (Native), Nepali (Native), English (Professional / Fluent), Hindi (Fluent), **German (B1 Level)**</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
